@@ -1,13 +1,10 @@
-MPI-life
-========
-
-Game of Life on MPI
-
-## Compiling
+COMPILING
 
 $> mpic++ life.cpp -o life
 
-## Running
+-------------------------------------------------------------------------------------
+
+RUNNING
 
 (restriction: size of the input grid should be dividable by the number of processors)
 example for give input (N=100)
@@ -16,7 +13,9 @@ example for give input (N=100)
 
 If program terminated with no errors, the output is written into output.txt file.
 
-## Output
+-------------------------------------------------------------------------------------
+
+OUTPUT
 
 Output for a given input.txt is in Run1.txt file.
 Output for 10 generations, printing to file every generation and the same grid as the first is in Run2.txt
