@@ -11,7 +11,9 @@ int main(int argc, char* argv[])
   MPI_Status Stat;
   ofstream output("output.txt");   //output file
   rc=MPI_Init(&argc,&argv);
-  if (rc!=0) {cout << "Error starting MPI." << endl; MPI_Abort(MPI_COMM_WORLD, rc);}
+  if (rc!=0) {
+    cout << "Error starting MPI." << endl; MPI_Abort(MPI_COMM_WORLD, rc);
+  }
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
