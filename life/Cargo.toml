@@ -2,8 +2,9 @@
 name = "life"
 version = "0.1.0"
 authors = ["Bryan Dixon <javawolfpack@gmail.com>"]
-edition = "2018"
+edition = "2019"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+mpi = "0.5"

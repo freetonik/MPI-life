@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  yatzee:
+    build: .
+    volumes:
+      - .:/code
