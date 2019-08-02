@@ -37,12 +37,13 @@ fn main() {
             else{
                 // let str_line: String
                 for (i, c) in line.ok().unwrap().chars().enumerate() {
-                    print!("{}",c);
+                    theBoard[num-1][i] = c-'0';
                     // do something with character `c` and index `i`
                 }
-                println!("");
+                // println!("");
             }
         }
+        println!("{:?}", theBoard);
     }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
