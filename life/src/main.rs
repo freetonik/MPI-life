@@ -57,7 +57,7 @@ fn main() {
         info.push(out_points);
         println!("{:?}",info);
         for dest in 0..size {
-            world.process_at_rank(dest).send(&info); //send info
+            world.process_at_rank(dest).send(&info[..]); //send info
         }
 
     }
