@@ -31,12 +31,12 @@ fn main() {
                 if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
-                let N = numbers[0];
+                const N = numbers[0];
                 let mut theBoard: [[i32; N]; N];
             }
             else{
                 // let str_line: String
-                for (i, c) in line.to_string().chars().enumerate() {
+                for (i, c) in line.ok().chars().enumerate() {
                     print!("{}",c);
                     // do something with character `c` and index `i`
                 }
