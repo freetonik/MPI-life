@@ -2,6 +2,8 @@ extern crate mpi;
 
 use mpi::request::WaitGuard;
 use mpi::traits::*;
+use std::env;
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
