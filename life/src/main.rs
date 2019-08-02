@@ -83,7 +83,29 @@ fn main() {
         slice.push(msg.clone());
     }
     println!("Process {} got slice {:?}",rank,slice);
-
+    let mut todown:Vec<i32>;
+    let mut toup:Vec<i32>;
+    let mut fromdown:Vec<i32>;
+    let mut fromup:Vec<i32>;  //arrays to send and to receive
+    for g in 1..generations{ //generations for loop
+        if rank!=size-1 {// all except for last send down
+          world.process_at_rank(rank+1).send(&slice[s-1][..]);
+        } else {
+          fromdown = vec![0; n]; // last one generates empty stripe "from down"
+        }
+        if rank!=0{ // all except for first receive from up
+            let (fromup, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+        } else {
+            fromup = vec![0; n]; // first one generats empty line "from up"
+        }
+        if rank!=0{ // all except for first send up
+            world.process_at_rank(rank-1).send(&slice[s-1][..]);
+        }
+        if rank!=size-1 { // all except for last receive from down
+            let (fromdown, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+        }
+        println!("Process {} \nfromup {:?}\nfromdown {:?}",rank,fromup,fromdown);
+    }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
     // if rank==0{
