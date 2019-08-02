@@ -61,7 +61,7 @@ fn main() {
         }
         for dest in 0..size{
           for k in 0..s{
-            let mut slice: Vec<i32> = the_board[(k+(dest*s)) as usize];
+            let mut slice: Vec<i32> = &the_board[(k+(dest*s)) as usize];
             // for l in 0..n{
             //   slice[l as usize].push(the_board[(k+(dest*s)) as usize][l as usize]);  //cut a slice from the the board
             // }
