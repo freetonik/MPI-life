@@ -10,7 +10,7 @@ fn main() {
     let rank = world.rank();
 
     let processor = mpi::environment::processor_name();
-    println!("Hello from task {} on {}!\n",rank,processor);
+    println!("Hello from task {} on {:?}!\n",rank,processor);
     if rank==0{
         println!("MASTER: Number of MPI tasks is: {}\n",size);
     }
