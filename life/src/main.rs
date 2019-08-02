@@ -31,6 +31,14 @@ fn main() {
                 if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
+                let mut theBoard: [[i32; numbers[0]]; numbers[0]];
+            }
+            else{
+                for (i, c) in line.chars().enumerate() {
+                    print!("{}",c);
+                    // do something with character `c` and index `i`
+                }
+                println!("");
             }
         }
     }
