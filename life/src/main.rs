@@ -18,9 +18,6 @@ fn main() {
     if rank==0{
         let input_file = std::env::args().nth(1).expect("Program requires input file path");
         println!("{:?}", input_file);
-        // if std::env::args().len() < 2{
-        //     panic!("Requires at least 1 argument to run");
-        // }
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
         for (num, line) in file.lines().enumerate() {
@@ -29,6 +26,11 @@ fn main() {
                         .map(|s| s.parse().unwrap())
                         .collect();
                 println!("{:?}",numbers);
+                let s=numbers[0]/size;  //how many slices
+                let mod = numbers[0]%size;
+                if mod != 0 {
+                    panic!("Input size needs to be divisible by number of processors");
+                }
             }
         }
     }
