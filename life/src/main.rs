@@ -80,7 +80,7 @@ fn main() {
     for k in 0..s{
         let (msg, status) = world.any_process().receive_vec::<i32>();
         println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
-        slice[k]=msg.clone();
+        slice[k as usize]=msg.clone();
     }
 
     // let processor = mpi::environment::processor_name();
