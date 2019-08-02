@@ -96,7 +96,7 @@ fn main() {
         }
         if rank!=0{ // all except for first receive from up
             println!("Process {} wait data from {}",rank, rank-1);
-            let (msg, _status) = world.any_process().receive_vec_with_tag::<i32>(1);
+            let (msg, _status) = world.this_process().receive_vec_with_tag::<i32>(1);
             fromup=msg;
         } else {
             fromup = vec![0; n as usize]; // first one generats empty line "from up"
@@ -107,7 +107,7 @@ fn main() {
         }
         if rank!=size-1 { // all except for last receive from down
             println!("Process {} wait data from {}",rank, rank+1);
-            let (msg, _status) = world.any_process().receive_vec_with_tag::<i32>(0);
+            let (msg, _status) = world.this_process().receive_vec_with_tag::<i32>(0);
             fromdown=msg;
         }
         println!("Process {} fromup {:?} fromdown {:?}",rank,fromup,fromdown);
