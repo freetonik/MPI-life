@@ -21,19 +21,25 @@ fn main() {
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
         let mut the_board: Vec<Vec<i32>> = vec![vec![0; 1]; 1];
+        let mut s:i32 = 0;
+        let mut n:i32 = 0;
+        let mut generations:i32 = 0;
+        let mut out_points:i32 = 0;
         for (num, line) in file.lines().enumerate() {
             if num == 0{
                 let numbers: Vec<i32> = line.unwrap().split_whitespace()
                         .map(|s| s.parse().unwrap())
                         .collect();
                 println!("{:?}",numbers);
-                let s=numbers[0]/size;  //how many slices
+                s=numbers[0]/size;  //how many slices
                 let m = numbers[0]%size; //modulus
                 if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
-                let n:usize = numbers[0] as usize;
-                the_board = vec![vec![0; n]; n];
+                n = numbers[0];
+                the_board = vec![vec![0; n as usize]; n as usize];
+                generations = numbers[1];
+                out_points = numbers[2];
             }
             else{
                 //iterate over the chars for each line and convert string 0/1 into ints
@@ -45,9 +51,9 @@ fn main() {
         }
         println!("{:?}", the_board);
         let mut info: [i32;4];
-        info[0]=n; info[1]=s; info[2]=numbers[1]; info[3]=numbers[2];
-        for (let mut dest:i32 =0; dest<size; dest++) {
-            MPI_Send(&info, 4, MPI_INT, dest, 1, MPI_COMM_WORLD); //send info
+        info[0]=n; info[1]=s; info[2]=generations; info[3]=out_points;
+        for dest in 0..size {
+            world.process_at_rank(dest).send(&info); //send info
         }
 
     }
