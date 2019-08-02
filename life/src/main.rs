@@ -3,19 +3,39 @@ extern crate mpi;
 use mpi::request::WaitGuard;
 use mpi::traits::*;
 use std::env;
+use std::io::BufReader;
+use std::io::BufRead;
+use std::fs::File;
 
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
     let universe = mpi::initialize().unwrap();
     let world = universe.world();
     let size = world.size();
     let rank = world.rank();
 
-    let processor = mpi::environment::processor_name();
-    println!("Hello from task {} on {:?}!",rank,processor);
-    if rank==0{
-        println!("MASTER: Number of MPI tasks is: {}",size);
+
+    if (rank==0){
+        let args: Vec<String> = env::args().collect();
+        println!("{:?}", args);
+        if vec.len() < 2{
+            panic!("Requires at least 1 argument to run");
+        }
+        let f = File::open(args[1]).unwrap();
+        let file = BufReader::new(&f);
+        for (num, line) in file.lines().enumerate() {
+            if num == 0{
+                let numbers: Vec<i32> = line.unwrap().as_slice()
+                        .split_whitespace()
+                        .map(|s| s.parse().unwrap())
+                        .collect()
+                println("{:?}",numbers);
+            }
+        }
     }
+    // let processor = mpi::environment::processor_name();
+    // println!("Hello from task {} on {:?}!",rank,processor);
+    // if rank==0{
+    //     println!("MASTER: Number of MPI tasks is: {}",size);
+    // }
 }
