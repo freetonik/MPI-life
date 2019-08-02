@@ -49,7 +49,7 @@ fn main() {
                 }
             }
         }
-        println!("{:?}", the_board);
+        // println!("{:?}", the_board);
         let mut info: Vec<i32> = Vec::new();
         info.push(n);
         info.push(s);
