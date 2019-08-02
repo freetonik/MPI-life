@@ -27,8 +27,8 @@ fn main() {
                         .collect();
                 println!("{:?}",numbers);
                 let s=numbers[0]/size;  //how many slices
-                let mod = numbers[0]%size;
-                if mod != 0 {
+                let m = numbers[0]%size; //modulus
+                if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
             }
