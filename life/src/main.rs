@@ -20,6 +20,7 @@ fn main() {
         println!("{:?}", input_file);
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
+        let mut theBoard: Vec<Vec<i32>>;
         for (num, line) in file.lines().enumerate() {
             if num == 0{
                 let numbers: Vec<i32> = line.unwrap().split_whitespace()
@@ -32,7 +33,7 @@ fn main() {
                     panic!("Input size needs to be divisible by number of processors");
                 }
                 let N:usize = numbers[0] as usize;
-                let mut theBoard = vec![vec![0; N]; N];
+                theBoard = vec![vec![0; N]; N];
             }
             else{
                 // let str_line: String
