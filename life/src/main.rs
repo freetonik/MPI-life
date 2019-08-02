@@ -89,25 +89,25 @@ fn main() {
     for g in 1..2{ //generations for loop
         if rank!=size-1 {// all except for last send down
           // println!("Process {} slice {:?}",rank, slice[(s-1) as usize]);
-          world.process_at_rank(rank+1).send(&slice[(s-1) as usize][..]);
+          world.process_at_rank(rank+1).send_with_tag(&slice[(s-1) as usize][..],1);//sending data up => tag=1
           println!("Process {} sent data to {}",rank, rank+1);
         } else {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
         if rank!=0{ // all except for first receive from up
             println!("Process {} wait data from {}",rank, rank-1);
-            let (msg, _status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+            let (msg, _status) = world.any_process().receive_vec_with_tag::<i32>(1);
             fromup=msg;
         } else {
             fromup = vec![0; n as usize]; // first one generats empty line "from up"
         }
         if rank!=0{ // all except for first send up
-            world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
+            world.process_at_rank(rank-1).send_with_tag(&slice[(s-1) as usize][..],0);//sending data down => tag=0
             println!("Process {} sent data to {}",rank, rank-1);
         }
         if rank!=size-1 { // all except for last receive from down
             println!("Process {} wait data from {}",rank, rank+1);
-            let (msg, _status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+            let (msg, _status) = world.any_process().receive_vec_with_tag::<i32>(0);
             fromdown=msg;
         }
         println!("Process {} fromup {:?} fromdown {:?}",rank,fromup,fromdown);
