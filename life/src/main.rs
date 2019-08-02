@@ -50,8 +50,12 @@ fn main() {
             }
         }
         println!("{:?}", the_board);
-        let mut info: [i32;4];
-        info[0]=n; info[1]=s; info[2]=generations; info[3]=out_points;
+        let mut info: Vec<i32> = Vec::new();
+        info.push(n);
+        info.push(s);
+        info.push(generations);
+        info.push(out_points);
+        println!("{:?}",info);
         for dest in 0..size {
             world.process_at_rank(dest).send(&info); //send info
         }
