@@ -70,6 +70,8 @@ fn main() {
           // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
         }
     }
+    let (msg, status) = world.any_process().receive_vec::<i32>();
+    println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
     // if rank==0{
