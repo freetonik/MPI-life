@@ -25,11 +25,10 @@ fn main() {
         let file = BufReader::new(&f);
         for (num, line) in file.lines().enumerate() {
             if num == 0{
-                let numbers: Vec<i32> = line.unwrap().as_slice()
-                        .split_whitespace()
+                let numbers: Vec<i32> = line.unwrap().split_whitespace()
                         .map(|s| s.parse().unwrap())
                         .collect();
-                println("{:?}",numbers);
+                println!("{:?}",numbers);
             }
         }
     }
