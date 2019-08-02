@@ -17,10 +17,10 @@ fn main() {
 
     if rank==0{
         let input_file = std::env::args().nth(1).expect("Program requires input file path");
-        println!("{:?}", args);
-        if args.len() < 2{
-            panic!("Requires at least 1 argument to run");
-        }
+        println!("{:?}", input_file);
+        // if std::env::args().len() < 2{
+        //     panic!("Requires at least 1 argument to run");
+        // }
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
         for (num, line) in file.lines().enumerate() {
