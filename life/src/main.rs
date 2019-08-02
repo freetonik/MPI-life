@@ -90,23 +90,23 @@ fn main() {
     // for g in 1..generations{ //generations for loop
     for g in 1..2{ //generations for loop
         if rank!=size-1 {// all except for last send down
-          println!("Process {} slice {:?}",rank, slice[(s-1) as usize]);
-          // world.process_at_rank(rank+1).send(&slice[(s-1) as usize][..]);
+          // println!("Process {} slice {:?}",rank, slice[(s-1) as usize]);
+          world.process_at_rank(rank+1).send(&slice[(s-1) as usize][..]);
         } else {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
         if rank!=0{ // all except for first receive from up
-            // let (fromup, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+            let (fromup, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
         } else {
             fromup = vec![0; n as usize]; // first one generats empty line "from up"
         }
         if rank!=0{ // all except for first send up
-            // world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
+            world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
         }
         if rank!=size-1 { // all except for last receive from down
-            // let (fromdown, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+            let (fromdown, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
         }
-        // println!("Process {} \nfromup {:?}\nfromdown {:?}",rank,fromup,fromdown);
+        println!("Process {} \nfromup {:?}\nfromdown {:?}",rank,fromup,fromdown);
     }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
