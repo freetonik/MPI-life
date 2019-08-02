@@ -63,7 +63,7 @@ fn main() {
           let mut slice: Vec<Vec<i32>> = Vec::new();
           for k in 0..s{
             for l in 0..n{
-              slice[k][l]=the_board[k+(z*s)][l];  //cut a slice from the the board
+              slice[k as usize][l as usize]=the_board[(k+(dest*s)) as usize][l as usize];  //cut a slice from the the board
             }
           }
           world.process_at_rank(dest).send(&slice[..]);
