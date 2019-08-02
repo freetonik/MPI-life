@@ -4,6 +4,8 @@ use mpi::request::WaitGuard;
 use mpi::traits::*;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
     let universe = mpi::initialize().unwrap();
     let world = universe.world();
     let size = world.size();
