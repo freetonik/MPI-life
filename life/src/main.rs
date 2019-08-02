@@ -44,7 +44,7 @@ fn main() {
             }
         }
         println!("{:?}", the_board);
-        let mut info[4]:i32;
+        let mut info[4:i32];
         info[0]=n; info[1]=s; info[2]=numbers[1]; info[3]=numbers[2];
         for (let mut dest:i32 =0; dest<size; dest++) {
             MPI_Send(&info, 4, MPI_INT, dest, 1, MPI_COMM_WORLD); //send info
