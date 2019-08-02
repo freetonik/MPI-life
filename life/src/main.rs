@@ -37,7 +37,7 @@ fn main() {
             else{
                 // let str_line: String
                 for (i, c) in line.ok().unwrap().chars().enumerate() {
-                    theBoard[num-1][i] = c-'0';
+                    theBoard[num-1][i] = (c as i32)-('0' as i32);
                     // do something with character `c` and index `i`
                 }
                 // println!("");
