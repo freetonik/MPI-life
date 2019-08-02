@@ -20,7 +20,7 @@ fn main() {
         println!("{:?}", input_file);
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
-        let mut theBoard: Vec<Vec<i32>> = vec![vec![0; 1]; 1];
+        let mut the_board: Vec<Vec<i32>> = vec![vec![0; 1]; 1];
         for (num, line) in file.lines().enumerate() {
             if num == 0{
                 let numbers: Vec<i32> = line.unwrap().split_whitespace()
@@ -32,19 +32,24 @@ fn main() {
                 if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
-                let N:usize = numbers[0] as usize;
-                theBoard = vec![vec![0; N]; N];
+                let n:usize = numbers[0] as usize;
+                the_board = vec![vec![0; n]; n];
             }
             else{
-                // let str_line: String
+                //iterate over the chars for each line and convert string 0/1 into ints
+                //put the ints into theBoard with the initial state
                 for (i, c) in line.ok().unwrap().chars().enumerate() {
-                    theBoard[num-1][i] = (c as i32)-('0' as i32);
-                    // do something with character `c` and index `i`
+                    the_board[num-1][i] = (c as i32)-('0' as i32);
                 }
-                // println!("");
             }
         }
-        println!("{:?}", theBoard);
+        println!("{:?}", the_board);
+        let mut info[4]:i32;
+        info[0]=n; info[1]=s; info[2]=numbers[1]; info[3]=numbers[2];
+        for (let mut dest:i32 =0; dest<size; dest++) {
+            MPI_Send(&info, 4, MPI_INT, dest, 1, MPI_COMM_WORLD); //send info
+        }
+
     }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
