@@ -83,8 +83,8 @@ fn main() {
         slice.push(msg.clone());
     }
     // println!("Process {} got slice {:?}",rank,slice);
-    let fromdown:Vec<i32>= Vec::new();
-    let fromup:Vec<i32>= Vec::new();  //Vectors to send and to receive
+    let mut fromdown:Vec<i32>= Vec::new();
+    let mut fromup:Vec<i32>= Vec::new();  //Vectors to send and to receive
     // for g in 1..generations{ //generations for loop
     for g in 1..2{ //generations for loop
         if rank!=size-1 {// all except for last send down
@@ -94,7 +94,8 @@ fn main() {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
         if rank!=0{ // all except for first receive from up
-            let (fromup, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+            let (msg, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+            fromup=msg;
         } else {
             fromup = vec![0; n as usize]; // first one generats empty line "from up"
         }
@@ -102,7 +103,8 @@ fn main() {
             world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
         }
         if rank!=size-1 { // all except for last receive from down
-            let (fromdown, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+            let (msg, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+            fromdown=msg;
         }
         println!("Process {} \nfromup {:?}\nfromdown {:?}",rank,fromup,fromdown);
     }
