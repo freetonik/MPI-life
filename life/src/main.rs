@@ -90,7 +90,7 @@ fn main() {
         if rank!=size-1 {// all except for last send down
           // println!("Process {} slice {:?}",rank, slice[(s-1) as usize]);
           world.process_at_rank(rank+1).send(&slice[(s-1) as usize][..]);
-          println!("Process {} sent fromup",rank);
+          println!("Process {} sent fromupto {}",rank, rank+1);
         } else {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
@@ -103,10 +103,10 @@ fn main() {
         }
         if rank!=0{ // all except for first send up
             world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
-            println!("Process {} sent fromdown {}",rank, rank+1);
+            println!("Process {} sent fromdown to {}",rank, rank-1);
         }
         if rank!=size-1 { // all except for last receive from down
-            println!("Process {} wait fromdown",rank);
+            println!("Process {} wait fromdown {}",rank, rank+1);
             let (msg, _status) = world.process_at_rank(rank+1).receive_vec::<i32>();
             fromdown=msg;
         }
