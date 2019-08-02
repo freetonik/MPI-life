@@ -94,7 +94,8 @@ fn main() {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
         if rank!=0{ // all except for first receive from up
-            let (msg, status) = world.process_at_rank(rank-1).receive_vec::<i32>();
+            println!("Process {} wait fromup",rank);
+            let (msg, _status) = world.process_at_rank(rank-1).receive_vec::<i32>();
             fromup=msg;
         } else {
             fromup = vec![0; n as usize]; // first one generats empty line "from up"
@@ -103,7 +104,8 @@ fn main() {
             world.process_at_rank(rank-1).send(&slice[(s-1) as usize][..]);
         }
         if rank!=size-1 { // all except for last receive from down
-            let (msg, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
+            println!("Process {} wait fromdown",rank);
+            let (msg, _status) = world.process_at_rank(rank+1).receive_vec::<i32>();
             fromdown=msg;
         }
         println!("Process {} fromup {:?} fromdown {:?}",rank,fromup,fromdown);
