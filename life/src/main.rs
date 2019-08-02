@@ -59,7 +59,15 @@ fn main() {
         for dest in 0..size {
             world.process_at_rank(dest).send(&info[..]); //send info
         }
-
+        let mut slice: [[i32; n/size]; n];
+        for dest in 0..size{
+          for k in 0..s{
+            for l in 0..n{
+              slice[k][l]=the_board[k+(z*s)][l];  //cut a slice from the the board
+            }
+          }
+          // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
+        }
     }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
