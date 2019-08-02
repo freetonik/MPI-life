@@ -106,7 +106,7 @@ fn main() {
             let (msg, status) = world.process_at_rank(rank+1).receive_vec::<i32>();
             fromdown=msg;
         }
-        println!("Process {} \nfromup {:?}\nfromdown {:?}",rank,fromup,fromdown);
+        println!("Process {} fromup {:?} fromdown {:?}",rank,fromup,fromdown);
     }
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
