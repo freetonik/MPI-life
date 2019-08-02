@@ -16,7 +16,7 @@ fn main() {
 
 
     if rank==0{
-        let args: Vec<String> = env::args().collect();
+        let mut args: Vec<String> = env::args().collect();
         println!("{:?}", args);
         if args.len() < 2{
             panic!("Requires at least 1 argument to run");
