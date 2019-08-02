@@ -31,8 +31,8 @@ fn main() {
                 if m != 0 {
                     panic!("Input size needs to be divisible by number of processors");
                 }
-
-                let mut theBoard = vec![vec![0; numbers[0]]; numbers[0]];
+                let N:usize = numbers[0];
+                let mut theBoard = vec![vec![0; N]; N];
             }
             else{
                 // let str_line: String
