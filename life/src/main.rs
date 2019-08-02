@@ -82,7 +82,7 @@ fn main() {
         // println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
         slice.push(msg.clone());
     }
-    println!("Process {} got slice {:?}",rank,slice);
+    // println!("Process {} got slice {:?}",rank,slice);
     let fromdown:Vec<i32>= Vec::new();
     let fromup:Vec<i32>= Vec::new();  //Vectors to send and to receive
     // for g in 1..generations{ //generations for loop
