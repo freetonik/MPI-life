@@ -71,7 +71,18 @@ fn main() {
         }
     }
     let (msg, status) = world.any_process().receive_vec::<i32>();
-    println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
+    // println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
+    let n:i32 = msg[0];
+    let s:i32 = msg[1];
+    let generations:i32 = msg[2];
+    let out_points:i32 = msg[3];
+    let mut slice: Vec<Vec<i32>> = Vec::new();
+    for k in 0..s{
+        let (msg, status) = world.any_process().receive_vec::<i32>();
+        println!("Process {} got message {:?}.\nStatus is: {:?}", rank, msg, status);
+        slice[k]=msg.clone();
+    }
+
     // let processor = mpi::environment::processor_name();
     // println!("Hello from task {} on {:?}!",rank,processor);
     // if rank==0{
