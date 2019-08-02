@@ -6,7 +6,7 @@ use std::env;
 use std::io::BufReader;
 use std::io::BufRead;
 use std::fs::File;
-use std::io::stdout;
+use std::io::{self, Write};
 
 fn main() {
     let universe = mpi::initialize().unwrap();
@@ -91,13 +91,13 @@ fn main() {
           // println!("Process {} slice {:?}",rank, slice[(s-1) as usize]);
           world.process_at_rank(rank+1).send_with_tag(&slice[(s-1) as usize][..],1);//sending data up => tag=1
           println!("Process {} sent data to {}",rank, rank+1);
-          stdout().flush();
+          io::stdout().flush().unwrap();
         } else {
           fromdown = vec![0; n as usize]; // last one generates empty stripe "from down"
         }
         if rank!=0{ // all except for first receive from up
             println!("Process {} wait data from {}",rank, rank-1);
-            stdout().flush();
+            io::stdout().flush().unwrap();
             let (msg, _status) = world.process_at_rank(rank-1).receive_vec_with_tag::<i32>(1);
             fromup=msg;
         } else {
@@ -106,11 +106,11 @@ fn main() {
         if rank!=0{ // all except for first send up
             world.process_at_rank(rank-1).send_with_tag(&slice[(s-1) as usize][..],0);//sending data down => tag=0
             println!("Process {} sent data to {}",rank, rank-1);
-            stdout().flush();
+            io::stdout().flush().unwrap();
         }
         if rank!=size-1 { // all except for last receive from down
             println!("Process {} wait data from {}",rank, rank+1);
-            stdout().flush();
+            io::stdout().flush().unwrap();
             let (msg, _status) = world.process_at_rank(rank+1).receive_vec_with_tag::<i32>(0);
             fromdown=msg;
         }
