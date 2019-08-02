@@ -83,10 +83,10 @@ fn main() {
         slice.push(msg.clone());
     }
     println!("Process {} got slice {:?}",rank,slice);
-    let mut todown:Vec<i32>;
-    let mut toup:Vec<i32>;
-    let mut fromdown:Vec<i32>;
-    let mut fromup:Vec<i32>;  //arrays to send and to receive
+    let mut todown:Vec<i32>= Vec::new();
+    let mut toup:Vec<i32>= Vec::new();
+    let mut fromdown:Vec<i32>= Vec::new();
+    let mut fromup:Vec<i32>= Vec::new();  //Vectors to send and to receive
     for g in 1..generations{ //generations for loop
         if rank!=size-1 {// all except for last send down
           world.process_at_rank(rank+1).send(&slice[(s-1) as usize][..]);
