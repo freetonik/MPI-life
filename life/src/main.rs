@@ -20,7 +20,7 @@ fn main() {
         println!("{:?}", input_file);
         let f = File::open(input_file).unwrap();
         let file = BufReader::new(&f);
-        let mut theBoard: Vec<Vec<i32>>;
+        let mut theBoard: Vec<Vec<i32>> = vec![vec![0; 1]; 1];
         for (num, line) in file.lines().enumerate() {
             if num == 0{
                 let numbers: Vec<i32> = line.unwrap().split_whitespace()
