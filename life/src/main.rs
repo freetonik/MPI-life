@@ -15,7 +15,7 @@ fn main() {
     let rank = world.rank();
 
 
-    if (rank==0){
+    if rank==0{
         let args: Vec<String> = env::args().collect();
         println!("{:?}", args);
         if args.len() < 2{
@@ -28,7 +28,7 @@ fn main() {
                 let numbers: Vec<i32> = line.unwrap().as_slice()
                         .split_whitespace()
                         .map(|s| s.parse().unwrap())
-                        .collect()
+                        .collect();
                 println("{:?}",numbers);
             }
         }
