@@ -60,13 +60,13 @@ fn main() {
             world.process_at_rank(dest).send(&info[..]); //send info
         }
         for dest in 0..size{
-          let mut slice: Vec<Vec<i32>> = Vec::new();
           for k in 0..s{
-            for l in 0..n{
-              slice[k as usize][l as usize]=the_board[(k+(dest*s)) as usize][l as usize];  //cut a slice from the the board
-            }
+            let mut slice: Vec<i32> = the_board[(k+(dest*s)) as usize];
+            // for l in 0..n{
+            //   slice[l as usize].push(the_board[(k+(dest*s)) as usize][l as usize]);  //cut a slice from the the board
+            // }
+            world.process_at_rank(dest).send(&slice[..]);
           }
-          world.process_at_rank(dest).send(&slice[..]);
           // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
         }
     }
