@@ -53,17 +53,11 @@ if rank == 0:
     info.append(out_points);
     for dest in range(size):
         comm.send(info, dest=dest, tag=1)
-        # world.process_at_rank(dest).send(&info[..]); //send info
     for dest in range(size):
-        # let mut slice: Vec<i32> = Vec::new();
-        # for l in 0..n{
-        #   slice.push(the_board[(k+(dest*s)) as usize][l as usize]);  //cut a slice from the the board
-        # }
-        # world.process_at_rank(dest).send(&slice[..]);
+        #Break the board into slices for each processor to handle.
         start=dest*s
         end=dest*s+s
         comm.send(the_board[start:end], dest=dest, tag=1)
-      # // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
 
 
 info = comm.recv(source=0, tag=1)
@@ -72,33 +66,30 @@ print("Hello, World! I am process "+ str(rank) + " with info: " + str(info))
 slice = comm.recv(source=0, tag=1)
 print("Hello, World! I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
 
+for g in range(1): #generations for loop
+    if rank!=size-1: # all except for last send down
+        comm.send(slice[s-1],dest=rank+1,tag=1) #sending data up
+        print("Process " + str(rank) + " sent data to "+str(rank+1));
+    else:
+        fromup = [0] * info[0] # last one generates empty stripe "from down"
+    if rank!=0: # all except for first receive from down
+        print("Process " + str(rank) + " wait on data from "+str(rank-1))
+        # println!("Process {} wait data from {}",rank, rank-1);
+        # io::stdout().flush().unwrap();
+        # let (msg, _status) = world.process_at_rank(rank-1).receive_vec_with_tag::<i32>(1);
+        # fromup=msg;
+        fromdown = comm.recv(source=rank-1,tag=1)
+    else:
+        fromup = [0] * info[0] # first one generats empty line "from up"
+    if rank!=0: # all except for first send up
+        comm.send(slice[0],dest=rank-1,tag=1) #sending data down
+        print("Process " + str(rank) + " sent data to "+str(rank-1));
+    if rank!=size-1: # all except for last receive from up
+        print("Process " + str(rank) + " wait on data from "+str(rank+1))
+        # # println!("Process {} wait data from {}",rank, rank+1);
+        # io::stdout().flush().unwrap();
+        # let (msg, _status) = world.process_at_rank(rank+1).receive_vec_with_tag::<i32>(0);
+        # fromdown=msg;
+        fromup = comm.recv(source=rank+1,tag=1)
 
-# passing MPI datatypes explicitly
-# if rank == 0:
-#     data = numpy.arange(1000, dtype='i')
-#     comm.Send([data, MPI.INT], dest=1, tag=77)
-# elif rank == 1:
-#     data = numpy.empty(1000, dtype='i')
-#     comm.Recv([data, MPI.INT], source=0, tag=77)
-
-# automatic MPI datatype discovery
-# if rank == 0:
-#     data = numpy.arange(100, dtype=numpy.float64)
-#     print("Sending rank "+str(rank))
-#     comm.Send(data, dest=1, tag=13)
-#     print("Sent rank "+str(rank))
-#     data = numpy.empty(100, dtype=numpy.float64)
-#     print("Receiving rank "+str(rank))
-#     comm.Recv(data, source=1, tag=13)
-#     print("Recieved rank "+str(rank))
-#     print(data)
-# elif rank == 1:
-#     data = numpy.empty(100, dtype=numpy.float64)
-#     print("Receiving rank "+str(rank))
-#     comm.Recv(data, source=0, tag=13)
-#     print("Recieved rank "+str(rank))
-#     print(data)
-#     data = numpy.arange(100, dtype=numpy.float64)
-#     print("Sending rank "+str(rank))
-#     comm.Send(data, dest=0, tag=13)
-#     print("Sent rank "+str(rank))
+    print("Process "+ rank +" fromup: "+ str(fromup) + " \nfromdown: " + str(fromdown) + "\n")
