@@ -11,12 +11,14 @@ size = MPI.COMM_WORLD.Get_size()
 rank = MPI.COMM_WORLD.Get_rank()
 name = MPI.Get_processor_name()
 
+if len(sys.argv) < 2:
+    print("Needs 1 argument w/ input file")
+    quit()
+
 sys.stdout.write(
     "Hello, World! I am process %d of %d on %s.\n"
     % (rank, size, name))
-sys.stdout.write(
-    "Number of args %d"%(len(sys.argv))
-)
+
 
 # passing MPI datatypes explicitly
 # if rank == 0:
