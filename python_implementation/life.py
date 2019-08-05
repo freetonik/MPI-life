@@ -28,7 +28,7 @@ if rank == 0:
         if num == 1:
             line = line.split()
             n=int(line[0])
-            s=n/size
+            s=int(n/size)
             m=n%size;
             if m != 0:
                 print("Input size needs to be divisible by number of processors")
@@ -54,10 +54,24 @@ if rank == 0:
     for dest in range(size):
         comm.send(info, dest=dest, tag=1)
         # world.process_at_rank(dest).send(&info[..]); //send info
-
+    for dest in range(size)
+        # let mut slice: Vec<i32> = Vec::new();
+        # for l in 0..n{
+        #   slice.push(the_board[(k+(dest*s)) as usize][l as usize]);  //cut a slice from the the board
+        # }
+        # world.process_at_rank(dest).send(&slice[..]);
+        start=dest*s
+        end=dest*s+(s-1)
+        comm.send(the_board[start:end], dest=dest, tag=1)
+      }
+      # // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
+    }
 
 info = comm.recv(source=0, tag=1)
 print("Hello, World! I am process "+ str(rank) + " with info: " + str(info))
+
+slice = comm.recv(source=0, tag=1)
+print("Hello, World! I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
 
 
 # passing MPI datatypes explicitly
