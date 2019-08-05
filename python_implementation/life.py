@@ -68,7 +68,7 @@ print("Hello, World! I am process "+ str(rank) + " with slice: " + str(slice) + 
 
 for g in range(1): #generations for loop
     if rank!=size-1: # all except for last send down
-        comm.send(slice[s-1],dest=rank+1,tag=1) #sending data up
+        comm.send(slice[info[1]-1],dest=rank+1,tag=1) #sending data up
         print("Process " + str(rank) + " sent data to "+str(rank+1));
     else:
         fromup = [0] * info[0] # last one generates empty stripe "from down"
