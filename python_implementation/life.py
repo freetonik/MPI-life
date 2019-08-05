@@ -61,8 +61,8 @@ if rank == 0:
         # }
         # world.process_at_rank(dest).send(&slice[..]);
         start=dest*s
-        end=dest*s+(s-1)
-        comm.send(the_board[start:end], dest=dest, tag=1)  
+        end=dest*s+s
+        comm.send(the_board[start:end], dest=dest, tag=1)
       # // MPI_Send(&slice, n*s, MPI_INT, dest, 1, MPI_COMM_WORLD);  //and send it
 
 
