@@ -35,7 +35,11 @@ if rank == 0:
             generations=int(line[1])
             out_points=int(line[2])
         else:
-            the_board.append([int(c) for c in line])
+            l_array=[]
+            for c in line:
+                if c == '0' or c == '1':
+                    l_array.append(int(c))
+            the_board.append(l_array)
     print(the_board)
 
 sys.stdout.write(
