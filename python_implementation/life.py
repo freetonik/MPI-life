@@ -61,17 +61,17 @@ if rank == 0:
 
 
 info = comm.recv(source=0, tag=1)
-print("Hello, World! I am process "+ str(rank) + " with info: " + str(info))
+print("I am process "+ str(rank) + " with info: " + str(info))
 
 slice = comm.recv(source=0, tag=1)
-print("Hello, World! I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
+print("I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
 
 for g in range(1): #generations for loop
     if rank!=size-1: # all except for last send down
         comm.send(slice[info[1]-1],dest=rank+1,tag=1) #sending data up
         print("Process " + str(rank) + " sent data to "+str(rank+1));
     else:
-        fromup = [0] * info[0] # last one generates empty stripe "from down"
+        fromup = [0] * info[0] # last one generates empty stripe "from up"
     if rank!=0: # all except for first receive from down
         print("Process " + str(rank) + " wait on data from "+str(rank-1))
         # println!("Process {} wait data from {}",rank, rank-1);
@@ -80,7 +80,7 @@ for g in range(1): #generations for loop
         # fromup=msg;
         fromdown = comm.recv(source=rank-1,tag=1)
     else:
-        fromdown = [0] * info[0] # first one generats empty line "from up"
+        fromdown = [0] * info[0] # first one generats empty line "from down"
     if rank!=0: # all except for first send up
         comm.send(slice[0],dest=rank-1,tag=1) #sending data down
         print("Process " + str(rank) + " sent data to "+str(rank-1));
@@ -93,3 +93,43 @@ for g in range(1): #generations for loop
         fromup = comm.recv(source=rank+1,tag=1)
 
     print("Process "+ str(rank) +" fromup: "+ str(fromup) + " \nfromdown: " + str(fromdown) + "\n")
+
+    sum=0 #sum of neighbours
+    s=info[1]
+    n=info[0]
+    newslice = [[0] * s for i in range(n)] #newslice[s][N];
+
+    for x in range(s): #for each row
+        for y in range(n): #for each column
+            if x==0 and y==0: #upper-left cell
+              sum = slice[x+1][y]+slice[x+1][y+1]+slice[0][y+1]+fromup[0]+fromup[1]
+            elif x==0 and y==n-1: #upper-right cell
+              sum = slice[x][y-1]+slice[x+1][y-1]+slice[x+1][y]+fromup[n-1]+fromup[n-2]
+            elif x==s-1 and y==0: #lower-left cell
+              sum = slice[x][y+1]+slice[x-1][y+1]+slice[x-1][y]+fromdown[0]+fromdown[1]
+            elif x==s-1 and y==n-1: #lower-right cell
+              sum = slice[x-1][y]+slice[x-1][y-1]+slice[x][y-1]+fromdown[n-1]+fromdown[n-2];
+            else: #not corner cells
+              if y==0: #leftmost line, not corner
+                sum=slice[x-1][y]+slice[x-1][y+1]+slice[x][y+1]+slice[x+1][y+1]+slice[x+1][y];
+              elif y==n-1: #rightmost line, not corner
+                sum=slice[x-1][y]+slice[x-1][y-1]+slice[x][y-1]+slice[x+1][y-1]+slice[x+1][y];
+              elif x==0: #uppermost line, not corner
+                sum=slice[x][y-1]+slice[x+1][y-1]+slice[x+1][y]+slice[x+1][y+1]+slice[x][y+1]+fromup[y-1]+fromup[y]+fromup[y+1];
+              elif x==s-1: #lowermost line, not corner
+                sum=slice[x-1][y-1]+slice[x-1][y]+slice[x-1][y+1]+slice[x][y+1]+slice[x][y-1]+fromdown[y-1]+fromdown[y]+fromdown[y+1];
+              else: #general case, any cell within
+                sum=slice[x-1][y-1]+slice[x-1][y]+slice[x-1][y+1]+slice[x][y+1]+slice[x+1][y+1]+slice[x+1][y]+slice[x+1][y-1]+slice[x][y-1];
+            #PUT THE NEW VALUE OF A CELL
+            if slice[x][y]==1 and (sum==2 or sum==3)):
+                newslice[x][y]=1
+            elif slice[x][y]==1 and sum>3:
+                newslice[x][y]=0
+            elif slice[x][y]==1 and sum<1:
+                newslice[x][y]=0
+            elif slice[x][y]==0 and sum==3:
+                newslice[x][y]=1
+            else:
+                newslice[x][y]=0
+    slice = newslice
+    print("I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
