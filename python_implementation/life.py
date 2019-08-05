@@ -18,8 +18,25 @@ if len(sys.argv) < 2:
 
 if rank == 0:
     f = open(sys.argv[1],"r")
-    for line in f:
-        print(line)
+    n = 0
+    s = 0
+    generations = 0
+    out_points = 0
+    the_board = []
+    for num, line in enumerate(f, 1):
+        if num == 1:
+            line = line.split()
+            n=line[0]
+            s=n/size
+            m=n%size;
+            if m != 0:
+                print("Input size needs to be divisible by number of processors")
+                quit()
+            generations=line[1]
+            out_points=line[2]
+        else:
+            the_board.append([int(c) for c in line])
+    print(the_board)
 
 sys.stdout.write(
     "Hello, World! I am process %d of %d on %s.\n"
