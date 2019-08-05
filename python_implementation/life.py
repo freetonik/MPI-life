@@ -134,4 +134,4 @@ for g in range(1): #generations for loop
             else:
                 newslice[x][y]=0
     slice = newslice
-    print("I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(len(slice)))
+    print("I am process "+ str(rank) + " after generation " + str(g) + " with slice: " + str(slice))
