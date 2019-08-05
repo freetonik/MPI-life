@@ -26,14 +26,14 @@ if rank == 0:
     for num, line in enumerate(f, 1):
         if num == 1:
             line = line.split()
-            n=line[0]
+            n=int(line[0])
             s=n/size
             m=n%size;
             if m != 0:
                 print("Input size needs to be divisible by number of processors")
                 quit()
-            generations=line[1]
-            out_points=line[2]
+            generations=int(line[1])
+            out_points=int(line[2])
         else:
             the_board.append([int(c) for c in line])
     print(the_board)
