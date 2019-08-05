@@ -80,7 +80,7 @@ for g in range(1): #generations for loop
         # fromup=msg;
         fromdown = comm.recv(source=rank-1,tag=1)
     else:
-        fromup = [0] * info[0] # first one generats empty line "from up"
+        fromdown = [0] * info[0] # first one generats empty line "from up"
     if rank!=0: # all except for first send up
         comm.send(slice[0],dest=rank-1,tag=1) #sending data down
         print("Process " + str(rank) + " sent data to "+str(rank-1));
