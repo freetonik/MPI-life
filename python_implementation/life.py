@@ -40,7 +40,11 @@ if rank == 0:
                 if c == '0' or c == '1':
                     l_array.append(int(c))
             the_board.append(l_array)
-    print(the_board)
+
+    # print(the_board)
+    print("Num rows: " + str(len(the_board)))
+    for row in the_board:
+        print(len(row))
 
 sys.stdout.write(
     "Hello, World! I am process %d of %d on %s.\n"
