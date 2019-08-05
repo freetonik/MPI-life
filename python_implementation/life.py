@@ -70,27 +70,19 @@ print("I am process "+ str(rank) + " with slice: " + str(slice) + " \n" + str(le
 for g in range(1): #generations for loop
     if rank!=size-1: # all except for last send down
         comm.send(slice[info[1]-1],dest=rank+1,tag=1) #sending data up
-        print("Process " + str(rank) + " sent data to "+str(rank+1));
+        # print("Process " + str(rank) + " sent data to "+str(rank+1));
     else:
         fromup = [0] * info[0] # last one generates empty stripe "from up"
     if rank!=0: # all except for first receive from down
-        print("Process " + str(rank) + " wait on data from "+str(rank-1))
-        # println!("Process {} wait data from {}",rank, rank-1);
-        # io::stdout().flush().unwrap();
-        # let (msg, _status) = world.process_at_rank(rank-1).receive_vec_with_tag::<i32>(1);
-        # fromup=msg;
+        # print("Process " + str(rank) + " wait on data from "+str(rank-1))
         fromdown = comm.recv(source=rank-1,tag=1)
     else:
         fromdown = [0] * info[0] # first one generats empty line "from down"
     if rank!=0: # all except for first send up
         comm.send(slice[0],dest=rank-1,tag=1) #sending data down
-        print("Process " + str(rank) + " sent data to "+str(rank-1));
+        # print("Process " + str(rank) + " sent data to "+str(rank-1));
     if rank!=size-1: # all except for last receive from up
-        print("Process " + str(rank) + " wait on data from "+str(rank+1))
-        # # println!("Process {} wait data from {}",rank, rank+1);
-        # io::stdout().flush().unwrap();
-        # let (msg, _status) = world.process_at_rank(rank+1).receive_vec_with_tag::<i32>(0);
-        # fromdown=msg;
+        # print("Process " + str(rank) + " wait on data from "+str(rank+1))
         fromup = comm.recv(source=rank+1,tag=1)
 
     print("Process "+ str(rank) +" fromup: "+ str(fromup) + " \nfromdown: " + str(fromdown) + "\n")
