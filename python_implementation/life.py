@@ -12,7 +12,8 @@ rank = MPI.COMM_WORLD.Get_rank()
 name = MPI.Get_processor_name()
 
 if len(sys.argv) < 2:
-    print("Needs 1 argument w/ input file")
+    if rank == 0:
+        print("Needs 1 argument w/ input file")
     quit()
 
 sys.stdout.write(
