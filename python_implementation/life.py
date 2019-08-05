@@ -11,6 +11,7 @@ comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 name = MPI.Get_processor_name()
+output = open("output.txt","w")
 
 if len(sys.argv) < 2:
     if rank == 0:
@@ -97,6 +98,7 @@ for g in range(1): #generations for loop
     sum=0 #sum of neighbours
     s=info[1]
     n=info[0]
+    out_points = info[3]
     newslice = [[0] * n for i in range(s)] #newslice[s][N];
     print(newslice)
 
@@ -135,3 +137,22 @@ for g in range(1): #generations for loop
                 newslice[x][y]=0
     slice = newslice
     print("I am process "+ str(rank) + " after generation " + str(g) + " with slice: " + str(slice))
+    if g%out_points==0:#s-th generation, send everything to node 0
+        if rank==0:
+            output.write("Generation "+ str(g) + ":\n")
+            for x in range(s): #put your own slice
+                for y in range(n):
+                    output.write(slice[x][y])
+            output.write("\n")
+            for i in range(1,size):
+                aBoard = comm.recv(source=i,tag=1)
+                for x in range(s): #put your own slice
+                    for y in range(n):
+                        output.write(aBoard[x][y])
+                output.write("\n")
+
+            output.write("\n")
+        else:
+            comm.send(slice,dest=0,tag=1)
+
+output.close()
