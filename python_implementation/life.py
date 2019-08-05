@@ -92,4 +92,4 @@ for g in range(1): #generations for loop
         # fromdown=msg;
         fromup = comm.recv(source=rank+1,tag=1)
 
-    print("Process "+ rank +" fromup: "+ str(fromup) + " \nfromdown: " + str(fromdown) + "\n")
+    print("Process "+ str(rank) +" fromup: "+ str(fromup) + " \nfromdown: " + str(fromdown) + "\n")
