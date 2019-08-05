@@ -121,7 +121,8 @@ for g in range(1): #generations for loop
               else: #general case, any cell within
                 sum=slice[x-1][y-1]+slice[x-1][y]+slice[x-1][y+1]+slice[x][y+1]+slice[x+1][y+1]+slice[x+1][y]+slice[x+1][y-1]+slice[x][y-1];
             #PUT THE NEW VALUE OF A CELL
-            if slice[x][y]==1 and (sum==2 or sum==3)):
+            test = sum==2 or sum==3
+            if slice[x][y]==1 and test:
                 newslice[x][y]=1
             elif slice[x][y]==1 and sum>3:
                 newslice[x][y]=0
