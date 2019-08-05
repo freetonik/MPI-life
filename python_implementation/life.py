@@ -150,7 +150,7 @@ for g in range(1): #generations for loop
                     for y in range(n):
                         output.write(str(aBoard[x][y]))
                     output.write("\n")
-                output.write("\n")
+            output.write("\n")
         else:
             comm.send(slice,dest=0,tag=1)
 
