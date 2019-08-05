@@ -16,6 +16,11 @@ if len(sys.argv) < 2:
         print("Needs 1 argument w/ input file")
     quit()
 
+if rank == 0:
+    f = open(sys.argv[1],"r")
+    for line in f:
+        print(line)
+
 sys.stdout.write(
     "Hello, World! I am process %d of %d on %s.\n"
     % (rank, size, name))
