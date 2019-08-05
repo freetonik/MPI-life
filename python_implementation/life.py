@@ -7,8 +7,9 @@ from mpi4py import MPI
 # from mpi4py import MPI
 import sys
 
-size = MPI.COMM_WORLD.Get_size()
-rank = MPI.COMM_WORLD.Get_rank()
+comm = MPI.COMM_WORLD
+size = comm.Get_size()
+rank = comm.Get_rank()
 name = MPI.Get_processor_name()
 
 if len(sys.argv) < 2:
@@ -42,13 +43,21 @@ if rank == 0:
             the_board.append(l_array)
 
     # print(the_board)
-    print("Num rows: " + str(len(the_board)))
-    for row in the_board:
-        print(len(row))
+    # print("Num rows: " + str(len(the_board)))
+    # for row in the_board:
+    #     print(len(row))
+    info = []
+    info.append(n);
+    info.append(s);
+    info.append(generations);
+    info.append(out_points);
+    for dest in range(size):
+        comm.send(info, dest=dest, tag=1)
+        # world.process_at_rank(dest).send(&info[..]); //send info
 
-sys.stdout.write(
-    "Hello, World! I am process %d of %d on %s.\n"
-    % (rank, size, name))
+
+info = comm.recv(source=0, tag=1)
+print("Hello, World! I am process "+ str(rank) + " with info: " + str(info))
 
 
 # passing MPI datatypes explicitly
