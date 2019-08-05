@@ -142,13 +142,13 @@ for g in range(1): #generations for loop
             output.write("Generation "+ str(g) + ":\n")
             for x in range(s): #put your own slice
                 for y in range(n):
-                    output.write(slice[x][y])
+                    output.write(str(slice[x][y]))
             output.write("\n")
             for i in range(1,size):
                 aBoard = comm.recv(source=i,tag=1)
                 for x in range(s): #put your own slice
                     for y in range(n):
-                        output.write(aBoard[x][y])
+                        output.write(str(aBoard[x][y]))
                 output.write("\n")
 
             output.write("\n")
