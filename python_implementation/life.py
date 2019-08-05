@@ -97,7 +97,7 @@ for g in range(1): #generations for loop
     sum=0 #sum of neighbours
     s=info[1]
     n=info[0]
-    newslice = [[0] * s for i in range(n)] #newslice[s][N];
+    newslice = [[0] * n for i in range(s)] #newslice[s][N];
     print(newslice)
 
     for x in range(s): #for each row
